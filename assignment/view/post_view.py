@@ -67,8 +67,8 @@ class PostView(CreateRetrieveUpdateViewSet, ApiResponse):
         resp_dict['id'] = instance.id
         resp_dict['text'] = instance.text
         resp_dict['created_by'] = data
-        resp_dict['created_at'] = instance.created_at
-        resp_dict['updated_at'] = instance.updated_at
+        resp_dict['created_at'] = instance.created_at.timestamp()
+        resp_dict['updated_at'] = instance.updated_at.timestamp()
         return resp_dict
 
     def get_list(self,data):
