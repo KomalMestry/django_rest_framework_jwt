@@ -134,7 +134,13 @@ JWT_AUTH = {
 
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3000),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
 
+}
+
+OAUTH2_PROVIDER = {
+'ACCESS_TOKEN_EXPIRE_SECONDS': 31536000,
+'OAUTH_SINGLE_ACCESS_TOKEN': True,
+'OAUTH_DELETE_EXPIRED': True
 }

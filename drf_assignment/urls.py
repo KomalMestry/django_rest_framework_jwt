@@ -17,7 +17,6 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.urls import path
 from rest_framework_simplejwt import views as jwt_views
-
 from assignment.view.login_view import LoginView
 from assignment.view.post_view import PostView
 from assignment.view.signup_view import SignUpView
@@ -26,6 +25,7 @@ from assignment.view.signup_view import SignUpView
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     path('login/', LoginView.as_view()),
+    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('signup/', SignUpView.as_view({'post':'post'})),
     path('post/', PostView.as_view({'post':'post','get':'list'})),
