@@ -39,6 +39,10 @@ class ApiResponse(object):
         data = {"message": message, "code": code, "success": success, "data": data}
         return Response(data=data, status=code)
 
+    def response_unauthenticate(self, message="Unauthenticate", code=401, success=False, data={}):
+        message = self.message_format(message)
+        data = {"message": message, "code": code, "success": success, "data": data}
+        return Response(data=data, status=code)
 
 
 

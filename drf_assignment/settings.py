@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'drf_assignment.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'demo',
+        'NAME': 'demodb',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'USER': 'root',
@@ -89,7 +89,10 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
+
 }
+
+AUTH_USER_MODEL = "assignment.Users"
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -131,16 +134,18 @@ STATIC_URL = '/static/'
 
 
 JWT_AUTH = {
-
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=15),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(seconds=300),
+    'JWT_ALGORITHM': 'HS256',
     'JWT_VERIFY': True,
     'JWT_VERIFY_EXPIRATION': True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
-    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-
+    'JWT_LEEWAY': 0,
+    'JWT_AUDIENCE': None,
+    'JWT_ISSUER': None,
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
+    'JWT_PAYLOAD_GET_USER_ID_HANDLER': 'jwt_auth.utils.jwt_get_user_id_from_payload_handler',
 }
 
-OAUTH2_PROVIDER = {
-'ACCESS_TOKEN_EXPIRE_SECONDS': 31536000,
-'OAUTH_SINGLE_ACCESS_TOKEN': True,
-'OAUTH_DELETE_EXPIRED': True
-}
+
+SERVER_PROTOCOLS = 'http://'

@@ -24,10 +24,10 @@ from assignment.view.signup_view import SignUpView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    path('login/', LoginView.as_view()),
+    path('api/login/', LoginView.as_view({'post':'post'})),
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path('signup/', SignUpView.as_view({'post':'post'})),
-    path('post/', PostView.as_view({'post':'post','get':'list'})),
+    path('api/signup/', SignUpView.as_view({'post':'post'})),
+    path('api/post/', PostView.as_view({'post':'post','get':'list'})),
 ]
 

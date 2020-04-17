@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.shortcuts import render
-from django.contrib.auth.models import User
+from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
-from assignment.models import Post
+from assignment.models import Users, Post
+# from assignment.models import Post
 from assignment.serializer.post_serializer import PostSerializer
 from utility.response import ApiResponse
 from utility.utils import CreateRetrieveUpdateViewSet
 
 
 class PostView(CreateRetrieveUpdateViewSet, ApiResponse):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     serializer_class = PostSerializer
     queryset = Post.objects.all()
 
@@ -23,7 +23,12 @@ class PostView(CreateRetrieveUpdateViewSet, ApiResponse):
         except Exception as e:
             return ApiResponse.response_internal_server_error(self, message=[str(e.args[0])])
 
+    @permission_classes([IsAuthenticated])
     def post(self, request):
+        try:
+            authtoken= request.META['HTTP_AUTHORIZATION']
+        except Exception as e:
+            return ApiResponse.response_unauthenticate(self)
         try:
             instance = request.user.id
             data = {"text": request.data.get('text'), "user": request.user.id}
@@ -40,7 +45,7 @@ class PostView(CreateRetrieveUpdateViewSet, ApiResponse):
 
     def validate(self, instance, data):
         resp_dict = dict()
-        user = User.objects.get(id=instance)
+        user = Users.objects.get(id=instance)
         resp_dict['first_name'] = user.first_name
         resp_dict['last_name'] = user.last_name
         resp_dict['username'] = user.username
@@ -53,7 +58,7 @@ class PostView(CreateRetrieveUpdateViewSet, ApiResponse):
         resp_dict = dict()
         data=dict()
         try:
-            user = User.objects.get(id=instance.id)
+            user = Users.objects.get(id=instance.id)
             data['first_name'] = user.first_name
             data['last_name'] = user.last_name
             data['username'] = user.username
